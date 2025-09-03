@@ -1,0 +1,39 @@
+name: TimeOut
+on: 
+ workflow_dispatch: 
+# schedule:
+ #  - cron: "*/1 * * * *"
+
+
+env:
+ CONTAINER_REGISTRY: docker.io
+ DOCKER_USERNAME: javedfgiet@gmail.com
+ IMAGE_NAME: github-actions-nginx
+
+jobs: 
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker Build
+        run: echo docker build -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/imageName:$IMAGE_NAME
+
+      - name: DockerLogin
+        env:
+          DOCKER_PASSWORD: Hilton2025@789
+        run: echo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+
+      - name: Docker Publish
+        run : echo docker push docker.io/$DOCKER_USERNAME/$IMAGE_NAME:latest
+  
+  deploy:
+    needs: docker
+    concurrency: 
+      group: production-deployment
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker run
+        timeout-minutes: 1
+        run: |
+         echo docker run -d -p 808:80 docker.io/$DOCKER_USERNAME/$IMAGE_NAME:latest
+         sleep 600s
