@@ -1,4 +1,4 @@
-name: Exloring Variable(Workflow Dispatch)
+name: Concurency
 on: 
  workflow_dispatch: 
 # schedule:
