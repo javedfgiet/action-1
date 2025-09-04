@@ -1,4 +1,4 @@
-name: Concurency
+name: ifcondition
 on: 
  workflow_dispatch: 
 # schedule:
@@ -36,4 +36,4 @@ jobs:
       - name: Docker run
         run: |
          echo docker run -d -p 808:80 docker.io/$DOCKER_USERNAME/$IMAGE_NAME:latest
-         sleep 600s
+         sleep 60s
